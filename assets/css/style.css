@@ -1,1 +1,7 @@
- 
+.eGalleryFirst::before {
+  content: "<-";
+}
+
+.eGalleryLast::after {
+  content: "->";
+}
