@@ -3,20 +3,21 @@ var mainImage = {};
 var gallery = (function() {
 
   var config = {
-    mainGallery: 'eGallery',
-    previewSize: 120,
-    showCount:   3,
+    mainGallery:   'eGallery',
+    previewSize:   120,
+    previewCount:  6,
     useFullScreen: true
   };
   var main = document.getElementById( config.mainGallery );
   var blackScreen, blackScreenPreview = '';
 
-  function exchangeElements(e1, e2) {
-      var tmp = e1.src
-      e1.src = e2.src;
-      e2.src = tmp;
+  function imageClearBorder(){
+    var main = document.getElementById('blackScreenPreview');
+    var images = main.getElementsByTagName('img');
+    for (var i = images.length - 1; i >= 0; i--) {
+      images[i].style.border = '';
+    };
   }
-
   // собственно тут все и происходит
   var createBlackScreen = function(localImage){
     var localImage = localImage;
@@ -33,6 +34,26 @@ var gallery = (function() {
     blackScreen.style.height = '100%';
     // blackScreen.style.display = 'none';
 
+    blackScreenClose = document.createElement('div');
+    blackScreenClose.id = 'blackScreenClose';
+    blackScreenClose.style.position = 'fixed';
+    // blackScreenClose.innerHTML = '<p>X</p>';
+    blackScreenClose.style.top = 0;
+    blackScreenClose.style.left = "80%";
+    blackScreenClose.style.zIndex = 45;
+    blackScreenClose.style.width = '20%';
+    blackScreenClose.style.height = '100%';
+
+    blackScreenPrev = document.createElement('div');
+    blackScreenPrev.id = 'blackScreenPrev';
+    blackScreenPrev.style.position = 'fixed';
+    // blackScreenPrev.innerHTML = '<p>X</p>';
+    blackScreenPrev.style.top = 0;
+    blackScreenPrev.style.left = 0;
+    blackScreenPrev.style.zIndex = 45;
+    blackScreenPrev.style.width = '20%';
+    blackScreenPrev.style.height = '100%';
+
     blackScreenPreview = document.createElement('div');
     blackScreenPreview.id = 'blackScreenPreview';
     blackScreenPreview.style.position = 'fixed';
@@ -40,24 +61,25 @@ var gallery = (function() {
     blackScreenPreview.style.zIndex = 20;
     blackScreenPreview.style.margin = 'auto';
 
+    blackScreen.appendChild( blackScreenPrev );
     blackScreen.appendChild( blackScreenPreview );
+    blackScreen.appendChild( blackScreenClose );
 
 
-    blackScreen.addEventListener("click", function(event){
-      
-      if (!!blackScreenPreview){
-        return false;
-        console.log('++');
-      }
+    blackScreenPrev.addEventListener("click", function(event){
+    });
 
-      if (blackScreen.parentNode) {
-        blackScreen.parentNode.removeChild(blackScreen);
-      }
-      if ( this.style.display != 'none' ) {
-        this.onclick = null;
-        this.style.display = 'none';
+    blackScreenClose.addEventListener("click", function(event){
+      var blackScreen = document.getElementById('blackScreen');
+      if ( !!!blackScreen ) {
+        createBlackScreen( this );
+      } else {
+        if (blackScreen.parentNode) {
+          blackScreen.parentNode.removeChild(blackScreen);
+        }
       };
     });
+
 
     var images = main.getElementsByTagName('img');
     var _index = 0;
@@ -65,17 +87,18 @@ var gallery = (function() {
     
     // var mainImage = {};
     // то на что кликнули, главная картинка
-    for (var i = images.length - 1; i >= 0; i--) {
+
+    var offset = (window.innerWidth/100)*20;
+    var previewWidth = window.innerWidth - 2*offset;
+    var imageOffset = previewWidth/config.previewCount;
+
+    console.log(offset, previewWidth, imageOffset)
+
+    for(var i = 0; i < images.length; i++) {
       var image = document.createElement('img');
-
-      var offset = (window.innerWidth/100)*24;
-      var imageOffset = offset/images.length;
-
-      console.log(offset, imageOffset);
-      
       // ставим картинку на которую кликнули
       if ( images[i].src == localImage.src ) {
-        mainImage = images[i];
+        _index = i;
         image.src = images[i].src;
         image.style.position = 'fixed';
         image.id = 'mainImage';
@@ -84,44 +107,48 @@ var gallery = (function() {
         image.style.right = '0';
         image.style.margin = '1% auto';
         image.style.zIndex = 20;
-        image.style.height = '84%';
+        image.style.height = '82%';
         blackScreen.appendChild(image);
-      }
 
+        image.addEventListener("click", function(event){
+          if(_index >= 0 && _index < images.length-1){
+            this.src = images[_index+1].src
+            _index++;
+          } else {
+            _index = 0;
+            this.src = images[_index].src;
+          }
+
+          var img = document.getElementById('blackScreenPreview').getElementsByTagName('img')[_index];
+          imageClearBorder();
+          console.log( img.style.border="1px solid white" );
+          // console.log('img:', img);
+
+        });
+      }
 
       var image = document.createElement('img');
 
-      switch (i) {
-        case 0:
-          image.className = config.mainGallery+'Last'
-          break
-        case images.length - 1:
-          image.className = config.mainGallery+'First'
-          break
-        default:
-          image.className = config.mainGallery+'Other'
-          break;
-      };
+      image.className = config.mainGallery+'Preview'
 
       image.src = images[i].src;
       image.style.position = 'fixed';
-      image.style.top = '88%';
-      image.style.height = '10%';
+      image.style.top = '84%';
+      // image.style.height = '10%';
+      image.style.width = imageOffset*0.85+'px';
       image.style.zIndex = 4;
-      image.style.left = offset + (i*(imageOffset+image.naturalWidth*0.06))+'px';
-      image.style.marginRight = offset;
+      image.style.left = offset + (i)*imageOffset+'px';
+      image.style.margin = "0.75% auto";
+      image.style.borderRadius = '2px';
       
-      if ( images[i].src == localImage.src ) {
+      if ( images[i].src == _index ) {
         image.style.border = '2px solid white';
-        image.style.borderRadius = '2px';
       };
       
       image.onclick = function(){
-        console.log(this);
-        var mainImage = document.getElementById('mainImage');
-        exchangeElements(image, mainImage);
-
-        // document.getElementById('blackScreen').style.pointerEvents = 'auto'; 
+        imageClearBorder();
+        this.style.border = '2px solid white';
+        document.getElementById('mainImage').src = this.src;
       };
 
       blackScreenPreview.appendChild(image);
@@ -131,17 +158,6 @@ var gallery = (function() {
 
     document.body.appendChild( blackScreen );
   };
-
-//   #popup
-// {
-//     left: 30%;
-//     top: 40%;
-//     background-color: #FFF;
-//     z-index: 222;
-//     width: 300px;
-//     height: 200px;
-//     position: fixed;
-// }
 
   // Если есть элемент с айдишником из конфига
   if (!!main) {
@@ -159,7 +175,6 @@ var gallery = (function() {
             blackScreen.parentNode.removeChild(blackScreen);
           }
         };
-        
       };
     };
   };

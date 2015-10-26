@@ -1,7 +1,69 @@
-.eGalleryFirst::before {
-  content: "<-";
+.selected {
+  border: 2px solid rgba(255,255,255,0.8);
+  border-radius: 2px;
 }
 
-.eGalleryLast::after {
-  content: "->";
+#mainImage:before{
+  content: " ";
+    display: block;
+    clear: both; /* if you need to break floating elements */
+}
+#mainImage:after{
+  content: " ";
+    display: block;
+    clear: both; /* if you need to break floating elements */
+}
+
+#blackScreenPrev:hover{
+  background: linear-gradient(to left, rgba(0,0,0,0.01), rgba(0,0,0,0.45));
+}
+
+#blackScreenPrev{
+  transition-duration: 0.3s;
+  background: linear-gradient(to left, rgba(0,0,0,0.01), rgba(0,0,0,0.25));
+}
+
+#blackScreenClose:hover{
+  background: linear-gradient(to right, rgba(0,0,0,0.01), rgba(0,0,0,0.45));
+}
+
+#blackScreenClose{
+  transition-duration: 0.3s;
+  background: linear-gradient(to right, rgba(0,0,0,0.01), rgba(0,0,0,0.25));
+}
+
+#mainImage{
+
+  -webkit-box-shadow: 0px 0px 31px 6px rgba(255,255,255,0.25);
+  -moz-box-shadow: 0px 0px 31px 6px rgba(255,255,255,0.25);
+  box-shadow: 0px 0px 31px 6px rgba(255,255,255,0.25);
+  border: 2px solid rgba(125,125,125,0.35);
+
+/*  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  -webkit-transition-property: border-radius;
+  transition-property: border-radius;*/
+  border-radius: 0.5em;
+}
+
+.eGalleryPreview {
+
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  -webkit-transition-property: box-shadow, transform;
+  transition-property: box-shadow, transform;
+}
+
+.eGalleryPreview:hover, .eGalleryPreview:focus, .eGalleryPreview:active {
+  box-shadow: 0 10px 10px -10px rgba(0, 0, 0, 0.5);
+  -webkit-transform: scale(1.15);
+  transform: scale(1.15);
 }
