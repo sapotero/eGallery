@@ -18,6 +18,14 @@ var gallery = (function() {
       images[i].style.border = '';
     };
   }
+
+  function drawCorner(_index){
+    var images = main.getElementsByTagName('img');
+    var img = document.getElementById('blackScreenPreview').getElementsByTagName('img')[_index];
+    imageClearBorder();
+    img.style.border="1px solid white";
+    document.getElementById('mainImage').src = images[_index].src;
+  }
   // собственно тут все и происходит
   var createBlackScreen = function(localImage){
     var localImage = localImage;
@@ -67,6 +75,15 @@ var gallery = (function() {
 
 
     blackScreenPrev.addEventListener("click", function(event){
+      if(_index >= 1 && _index <= images.length-1){
+        this.src = images[_index].src
+        _index--;
+      } else {
+        _index = images.length-1;
+        this.src = images[_index].src;
+      }
+
+      drawCorner(_index);
     });
 
     blackScreenClose.addEventListener("click", function(event){
@@ -118,12 +135,7 @@ var gallery = (function() {
             _index = 0;
             this.src = images[_index].src;
           }
-
-          var img = document.getElementById('blackScreenPreview').getElementsByTagName('img')[_index];
-          imageClearBorder();
-          console.log( img.style.border="1px solid white" );
-          // console.log('img:', img);
-
+          drawCorner(_index);
         });
       }
 
