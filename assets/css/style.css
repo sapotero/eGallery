@@ -1,69 +1,98 @@
-.selected {
-  border: 2px solid rgba(255,255,255,0.8);
-  border-radius: 2px;
+.eGalleryHide {
+  display: none;
 }
 
-#mainImage:before{
-  content: " ";
+.eGallery {
+/*    background-color: #fff;
+    box-shadow: inset 0 0 2px hsla(0,0%,0%,.2),
+                0 3px 1px hsla(0,0%,100%,.75),
+                0 -1px 1px 2px hsla(0,0%,0%,.1);
+    left: 50%;*/
+    margin: .5em;
+    padding: .5em;
+    /*position: absolute;*/
+    /*top: 50%;*/
+    /*height: 15em;*/
+    /*width: 100%;*/
+}
+/*.eGallery:before {
+    background-color: #22130c;
+    bottom: -2.5em;
+    box-shadow: inset 0 1px 1px 1px hsla(0,0%,100%,.2),
+                inset 0 -2px 1px hsla(0,0%,0%,.4),
+                0 5px 50px hsla(0,0%,0%,.25),
+                0 20px 20px -15px hsla(0,0%,0%,.2),
+                0 30px 20px -15px hsla(0,0%,0%,.15),
+                0 40px 20px -15px hsla(0,0%,0%,.1);
+    content: '';
+    left: -2.5em;
+    position: absolute;
+    right: -2.5em;
+    top: -2.5em;
+    z-index: -1;
+}
+.eGallery:after {
+    background-color: #fff5e5;
+    bottom: -1.5em;
+    box-shadow: 0 2px 1px hsla(0,0%,100%,.2),
+                0 -1px 1px 1px hsla(0,0%,0%,.4),
+                inset 0 2px 3px 1px hsla(0,0%,0%,.2),
+                inset 0 4px 3px 1px hsla(0,0%,0%,.2),
+                inset 0 6px 3px 1px hsla(0,0%,0%,.1);
+    content: '';
+    left: -1.5em;
+    position: absolute;
+    right: -1.5em;
+    top: -1.5em;
+    z-index: -1;
+}*/
+.eGallery li {
+    box-shadow: 0 -1px 0 2px hsla(0,0%,0%,.03);
+    list-style: none;
+    position: absolute;
+}
+.eGallery input {
+    display: none;
+}
+.eGallery label {
+    background-color: #111;
+    background-image: linear-gradient(transparent, hsla(0,0%,0%,.25));
+    border: .2em solid transparent;
+    bottom: .5em;
+    border-radius: 100%;
+    cursor: pointer;
     display: block;
-    clear: both; /* if you need to break floating elements */
+    height: .5em;
+    left: 24em;
+    opacity: 0;
+    position: absolute;
+    transition: .25s;
+    width: .5em;
+    visibility: hidden;
+    z-index: 10;
 }
-#mainImage:after{
-  content: " ";
-    display: block;
-    clear: both; /* if you need to break floating elements */
+.eGallery label:after {
+    border-radius: 100%;
+    bottom: -.2em;
+    box-shadow: inset 0 0 0 .2em #111,
+                inset 0 2px 2px #000,
+                0 1px 1px hsla(0,0%,100%,.25);
+    content: '';
+    left: -.2em;
+    position: absolute;
+    right: -.2em;
+    top: -.2em;
 }
-
-#blackScreenPrev:hover{
-  background: linear-gradient(to left, rgba(0,0,0,0.01), rgba(0,0,0,0.45));
+.eGallery:hover label {
+    opacity: 1;
+    visibility: visible;
 }
-
-#blackScreenPrev{
-  transition-duration: 0.3s;
-  background: linear-gradient(to left, rgba(0,0,0,0.01), rgba(0,0,0,0.25));
+.eGallery input:checked + label {
+    background-color: #fff;
 }
-
-#blackScreenClose:hover{
-  background: linear-gradient(to right, rgba(0,0,0,0.01), rgba(0,0,0,0.85));
-}
-
-#blackScreenClose{
-  transition-duration: 0.3s;
-  background: linear-gradient(to right, rgba(0,0,0,0.01), rgba(0,0,0,0.35));
-}
-
-#mainImage{
-
-  -webkit-box-shadow: 0px 0px 31px 6px rgba(255,255,255,0.25);
-  -moz-box-shadow: 0px 0px 31px 6px rgba(255,255,255,0.25);
-  box-shadow: 0px 0px 31px 6px rgba(255,255,255,0.25);
-  border: 2px solid rgba(125,125,125,0.35);
-
-/*  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-transition-duration: 0.3s;
-  transition-duration: 0.3s;
-  -webkit-transition-property: border-radius;
-  transition-property: border-radius;*/
-  border-radius: 0.5em;
-}
-
-.eGalleryPreview {
-
-  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-transition-duration: 0.3s;
-  transition-duration: 0.3s;
-  -webkit-transition-property: box-shadow, transform;
-  transition-property: box-shadow, transform;
-}
-
-.eGalleryPreview:hover, .eGalleryPreview:focus, .eGalleryPreview:active {
-  box-shadow: 0 10px 10px -10px rgba(0, 0, 0, 0.5);
-  -webkit-transform: scale(1.15);
-  transform: scale(1.15);
+.eGallery li input:checked ~ img {
+    opacity: 1;
+    transition: .25s;
+    visibility: visible;
+    z-index: 10;
 }
