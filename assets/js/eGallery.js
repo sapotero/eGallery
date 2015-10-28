@@ -10,12 +10,6 @@ var gallery = (function() {
   var main, root, images, error;
   var index = 0;
 
-  var hide = function (){
-    for (var i = images.length - 1; i >= 0; i--) {
-      images[i].style.display = 'none';
-    };
-  }
-
   var checkConfiguration = function (){
     root = document.getElementById( config.root );
     if ( !!root ) {
